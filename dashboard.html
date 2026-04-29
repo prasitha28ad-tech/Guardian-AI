@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | GuardianX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Moderation Dashboard</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>Active Groups</h3>
+                <p style="font-size: 2rem; font-weight: bold;">{{ groups_count }}</p>
+            </div>
+            <div class="card">
+                <h3>Total Moderation Actions</h3>
+                <p style="font-size: 2rem; font-weight: bold;">{{ logs_count }}</p>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <h3>Recent Activity Graph</h3>
+            <img src="{{ url_for('static', filename='activity.png') }}" alt="Activity Graph" style="max-width: 100%; border-radius: 0.5rem;">
+        </div>
+
+        <h3>Recent Logs</h3>
+        <table class="log-table">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Reason</th>
+                    <th>User ID</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in recent_logs %}
+                <tr>
+                    <td>{{ log.action }}</td>
+                    <td>{{ log.reason }}</td>
+                    <td>{{ log.target_user_id }}</td>
+                    <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">No logs available yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
